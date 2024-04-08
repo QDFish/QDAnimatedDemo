@@ -6,47 +6,71 @@
  */
 
 import React, { ReactElement } from 'react';
+import { NavigationContainer } from '@react-navigation/native';
+import { createNativeStackNavigator } from '@react-navigation/native-stack';
+
+
 import {
-  SafeAreaView,
-  StyleSheet,
-  FlatList,
-  TouchableWithoutFeedback,
-  View,
-  Text
+    SafeAreaView,
+    StyleSheet,
+    FlatList,
+    TouchableWithoutFeedback,
+    View,
+    Text
 } from 'react-native';
 
 import FadeInView from './animated/FadeInView';
 
-function App(): React.JSX.Element {
+const Stack = createNativeStackNavigator()
 
-  return (
-    <SafeAreaView>
-        <Text style={styles.title}>Aniamted</Text>
+
+const HomeScreen = ({ navigation }) => {
+    return (
 
         <FlatList
-        style={styles.list}
-        data={[
-            {
-                type : 'Fade In',
-                page : <FadeInView/>
-            }
-        ]}
-        renderItem={({item}) => {
-            
-            return (
-                <TouchableWithoutFeedback>
-                    <View style={styles.row}>
-                        <Text style={styles.text}>{item.type}</Text>
-                        <View style={styles.line}></View>
-                    </View>                    
-                </TouchableWithoutFeedback>
-            )
-        }}
-        >
+            style={styles.list}
+            data={[
+                {
+                    type: 'Fade In',
+                    page: 'fade_in'
+                }
+            ]}
+            renderItem={({ item }) => {
 
+                return (
+                    <TouchableWithoutFeedback onPress={() => {
+                        navigation.navigate(item.page)
+                    }}>
+                        <View style={styles.row}>
+                            <Text style={styles.text}>{item.type}</Text>
+                            <View style={styles.line}></View>
+                        </View>
+                    </TouchableWithoutFeedback>
+                )
+            }}
+        >
         </FlatList>
-    </SafeAreaView>
-  );
+    )
+}
+
+function App(): React.JSX.Element {
+
+    return (
+        <NavigationContainer>
+            <Stack.Navigator initialRouteName='Home'>
+                <Stack.Screen 
+                name='home' 
+                component={HomeScreen}
+                options={{title: 'Home'}}
+                />
+                <Stack.Screen
+                name='fade_in' 
+                component={FadeInView}
+                options={{title: 'Fade In'}}
+                />
+            </Stack.Navigator>
+        </NavigationContainer>
+    );
 }
 
 const styles = StyleSheet.create({
@@ -57,7 +81,7 @@ const styles = StyleSheet.create({
         color: 'green',
         fontSize: 30,
         fontWeight: 'bold',
-        textAlign: 'center'        
+        textAlign: 'center'
     },
 
     row: {
