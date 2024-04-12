@@ -19,29 +19,32 @@ import {
     Text
 } from 'react-native';
 
-import FadeInView from './animated/FadeInView';
+import LifecycleView from './src/LifecycleView';
 
 const Stack = createNativeStackNavigator()
 
+const datas = [
+    {
+        type: 'Lifecycle',
+        page: 'lifecycle',
+        compo: LifecycleView
+    }
+]
 
 const HomeScreen = ({ navigation }) => {
     return (
 
         <FlatList
+            // keyExtractor={item => item.type}
             style={styles.list}
-            data={[
-                {
-                    type: 'Fade In',
-                    page: 'fade_in'
-                }
-            ]}
+            data={datas}
             renderItem={({ item }) => {
 
                 return (
                     <TouchableWithoutFeedback onPress={() => {
                         navigation.navigate(item.page)
                     }}>
-                        <View style={styles.row}>
+                        <View style={styles.row} key={item.type}>
                             <Text style={styles.text}>{item.type}</Text>
                             <View style={styles.line}></View>
                         </View>
@@ -59,15 +62,21 @@ function App(): React.JSX.Element {
         <NavigationContainer>
             <Stack.Navigator initialRouteName='Home'>
                 <Stack.Screen 
+                key={'home'}
                 name='home' 
                 component={HomeScreen}
                 options={{title: 'Home'}}
                 />
+                {datas.map((item) => {
+                    return (
                 <Stack.Screen
-                name='fade_in' 
-                component={FadeInView}
-                options={{title: 'Fade In'}}
+                key={item.page}
+                name={item.page} 
+                component={item.compo}
+                options={{title: item.type}}
                 />
+                    )                    
+                })}   
             </Stack.Navigator>
         </NavigationContainer>
     );
