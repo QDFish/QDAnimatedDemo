@@ -68,7 +68,7 @@ const ScrollEvenView: React.FC = () => {
                 </ScrollView>
             </View>
             <View style={styles.showZone}>
-                <Animated.View style={[styles.block, {top: scrollX}]}/>
+                <Animated.View style={[styles.block, {transform: [{translateY: 30}, {rotateX: '-30deg'}]}]}/>
             </View>
         </View>
     )

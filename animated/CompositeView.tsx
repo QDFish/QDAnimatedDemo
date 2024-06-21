@@ -18,8 +18,8 @@ const CompositeView: React.FC = () => {
             name: 'reset',
             func: () => {
                 Animated.parallel([            
-                    Animated.spring(yAnim, {
-                        toValue: 0,
+                    Animated.timing(yAnim, {
+                        toValue: 0,                        
                         useNativeDriver: false
                     }),
         
@@ -34,7 +34,7 @@ const CompositeView: React.FC = () => {
             name: 'parallel',
             func: () => {
                 Animated.parallel([            
-                    Animated.spring(yAnim, {
+                    Animated.timing(yAnim, {
                         toValue: 400,
                         useNativeDriver: false
                     }),
@@ -50,7 +50,7 @@ const CompositeView: React.FC = () => {
             name: 'sequence',
             func: () => {
                 Animated.sequence([            
-                    Animated.spring(yAnim, {
+                    Animated.timing(yAnim, {
                         toValue: 400,
                         useNativeDriver: false
                     }),
